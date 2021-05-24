@@ -1,0 +1,472 @@
+<style>
+  .btn-tag {
+    margin-bottom: 5px;
+    text-transform: capitalize;
+  }
+
+  .btn-tag.people {
+    background-color: rgba(255, 97, 56, 0.5);
+  }
+
+  .btn-tag.people.active {
+    background-color: rgba(255, 97, 56, 0.9); font-weight: bold;
+  }
+
+  .btn-tag.places {
+    background-color: rgba(255, 255, 157, 0.5);
+  }
+
+  .btn-tag.places.active {
+    background-color: rgba(255, 255, 157, 1); font-weight: bold;
+  }
+
+  .btn-tag.objects {
+    background-color: rgba(190, 235, 159, 0.5);
+  }
+
+  .btn-tag.objects.active {
+    background-color: rgba(190, 235, 159, 1); font-weight: bold;
+  }
+
+  .btn-tag.custom {
+    background-color: rgba(0, 163, 136, 1); font-weight: bold;
+  }
+
+  h3, h4 {
+    margin-top: 20px;
+  }
+  textarea, #tags {
+    width: 100%;
+  }
+</style>
+
+<!--
+Task DOM for loading the Flickr Images
+It uses the class="skeleton" to identify the elements that belong to the
+task.
+-->
+<div class="skeleton row">
+  <!-- Start Skeleton Row-->
+  <div class="col-md-6 ">
+    <!-- Start of Question and Submission DIV (column) -->
+    <p>
+      1. Select as many of the following tags as are applicable:
+    </p>
+    <h3>People</h3>
+
+    <div id="people">
+      <button class="btn btn-sm btn-default btn-tag people" value="politician">Politician</button>
+      <button class="btn btn-sm btn-default btn-tag people" value="campaigner">Campaigner</button>
+      <button class="btn btn-sm btn-default btn-tag people" value="historicalfigure">Representation of Historical Figure (before 1950)</button>
+    </div>
+
+    <h3>Places</h3>
+
+    <div id="places">
+      <button class="btn btn-sm btn-default btn-tag places" value="heritagesite">Heritage Site</button>
+      <button class="btn btn-sm btn-default btn-tag places" value="urban">Urban</button>
+      <button class="btn btn-sm btn-default btn-tag places" value="rural">Rural</button>
+      <button class="btn btn-sm btn-default btn-tag places" value="maritime">Maritime</button>
+    </div>
+
+    <h3>Objects</h3>
+
+    <div id="objects">
+      <button class="btn btn-sm btn-default btn-tag objects" value="builtheritage">Built Heritage</button>
+      <button class="btn btn-sm btn-default btn-tag objects" value="statueormonument">Statue or Monument</button>
+      <button class="btn btn-sm btn-default btn-tag objects" value="sign">Sign</button>
+      <button class="btn btn-sm btn-default btn-tag objects" value="flag">Flag</button>
+      <button class="btn btn-sm btn-default btn-tag objects" value="politicalsymbol">Political Symbol</button>
+    </div>
+
+    <h4>
+      2. Now you can add your own tags.
+    </h4>
+    <p>
+      Please write tags specifying the names of people, places and objects you
+      identified in step 1.
+    </p>
+
+    <input id="tags" type="text" name="tags">
+
+    <div id="custom" class="mt-2"></div>
+
+    <h4>
+      3. Location and Date.
+    </h4>
+    <p>
+      Where/When the photo was taken. To find  this information,
+      open the photo on Flickr in a new wondow/tab by right clicking on it.
+    </p>
+    <textarea id="locationdate" rows="1"></textarea>
+
+    <h4>
+      4. Content of Signs
+    </h4>
+    <p>
+      Use this box to transcribe the content of the signs in the
+      photograph and for your Comments.
+    </p>
+    <textarea id="comments" rows="4"></textarea>
+
+    <!-- Feedback items for the user -->
+    <p>
+      <span id="i18n_working_task">You are working now on task:</span> <span
+      id="task-id" class="badge badge-warning">#</span>
+    </p>
+    <p>
+      <span id="i18n_tasks_completed">You have completed:</span>
+      <span id="done" class="badge badge-info"></span>
+      <span id="i18n_tasks_from">tasks from</span>
+      <!-- Progress progress-bar for the user -->
+      <span id="total" class="badge badge-dark"></span>
+    </p>
+    <div class="progress progress-striped">
+      <div id="progress" rel="tooltip" title="#" class="progress-bar" style="width: 0%;"></div>
+    </div>
+
+  </div><!-- End of Question and Submission DIV (column) -->
+
+  <div class="col-md-6"><!-- Start of Photo DIV (column) -->
+    <a id="photo-link" href="#">
+      <img id="photo" src="https://i.imgur.com/GeHxzb7.png" style="img-fluid">
+    </a>
+    <button class="btn btn-success btn-submit pull-left mt-2 mb-2" style="display:none;">Submit</button>
+    <button class="btn btn-info mb-2 mt-2" data-toggle="modal" data-target="#myModal">
+      <i class="glyphicon glyphicon-eye-open"></i> Tutorial
+    </button>
+    <a href="http://community.micropasts.org" class="btn btn-info pull-right mb-2 mt-2" style="">Community Help</a>
+  </div>
+</div>
+
+
+<!-- Modal start -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <!-- Modal header -->
+      <div class="modal-header">
+        <h3>How to 'tag' photographs from the Scottish Political Archive</h3>
+      </div>
+
+      <!-- Step 1 of the tutorial -->
+      <div id="0" class="modal-body" style="display:none">
+        <p>
+          Tagging the 2014 Referendum photographs is pretty straightforward.
+        </p>
+        <p>
+          All we want you to do is to look at the picture you are
+          presented with and <strong>tag all the elements that you recognise</strong>.
+        </p>
+
+      </div>
+
+      <!-- Step 2 of the tutorial -->
+      <div id="1" class="modal-body" style="display:none">
+        <ol>
+          <li>
+            First, try to use the tags that are provided clicking on the buttons.
+          </li>
+          <li>
+            Then add your own tags, to specify any names of people, places and objects you identified in step 1.
+          </li>
+        </ol>
+        <p>
+          For instance, if you have selected the button:
+        </p>
+        <ul>
+          <li><i>Campaigner</i> or <i>Politician</i>, please specify if there is a <i>stall</i>, a <i>demonstration</i> or a <i>speech</i>;</li>
+          <li><i>Heritage site</i>, please tag the name and the type of the site;</li>
+          <li><i>Built Heritage</i>, the name/s of the building/s;</li>
+          <li><i>Statue or Monument</i>, specify what they represent;</li>
+          <li><i>Flag</i>, add tags which can described the content of this element;</li>
+          <li><i>Political Symbol</i>, you can specify whether it is a party logo, or an object from the past used as political symbol.</li>
+        </ul>
+        <p>
+          If you recognise a specific person in the photo, such as a politician or the representation of a historical figure, please tag
+          in this way: <i>Last nameFirst name</i>; for example: WallaceWilliam.
+        </p>
+      </div>
+
+      <div id="2" class="modal-body" style="display:none">
+        <p>
+          3. Open the photo on Flickr in a new window/tab by right clicking on the photograph,
+          and write down where and when the photograph was taken in the Location and Date Box .
+        </p>
+
+      </div>
+
+      <div id="3" class="modal-body" style="display:none">
+        <p>
+          4. Please use the Comment Box to transcribe the content of any signs.
+        </p>
+        <p>
+          If you are not sure about your work or you want to let us
+          know the reasons for some of your choices, you can do so using
+          the comment box. You can also ask us direct questions via
+          the <a href="http://community.micropasts.org">community forum</a>.
+          Thank you for participating!
+        </p>
+      </div>
+      <!-- End of stepped modal body -->
+
+      <!-- Modal footer -->
+      <div class="modal-footer">
+        <a id="prevBtn" href="#" onclick="showStep('prev')" class="btn btn-default">Previous</a>
+        <a id="nextBtn" href="#" onclick="showStep('next')" class="btn btn-success">Next</a>
+        <button id="closeBtn" data-dismiss="modal" onclick="showStep('finish')" class="btn btn-primary"
+        style="display:none"><i class="glyphicon glyphicon-thumbs-up"></i> Back to task
+      </button>
+    </div>
+  </div>
+</div>
+</div>
+
+
+<script type="text/javascript">
+  var step = -1;
+  function showStep(action) {
+    $("#" + step).hide();
+    if (action == 'next') {
+      step = step + 1;
+    }
+    if (action == 'prev') {
+      step = step - 1;
+    }
+    if (step == 0) {
+      $("#prevBtn").hide();
+    }
+    else {
+      $("#prevBtn").show();
+    }
+    if (step == 3 ) {
+      $("#nextBtn").hide();
+      $("#startContrib").show();
+    }
+    $("#" + step).show();
+  }
+  showStep('next');
+  $("#modal").modal('show');
+</script>
+
+<script type="text/javascript">
+  /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+
+  /* * * DON'T EDIT BELOW THIS LINE * * */
+
+
+</script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
+<script src="/static/js/pybossa-player/dist/pybossa-player.min.js"></script>
+
+<script type="text/javascript">
+  (function() {
+
+    // Default language
+    var userLocale = "en";
+    // Translations
+    var messages = {"en": {
+      "i18n_welldone": "Well done!",
+      "i18n_welldone_text": "Your answer has been saved",
+      "i18n_loading_next_task": "Loading next task...",
+      "i18n_task_completed": "The task has been completed!",
+      "i18n_thanks": "Thanks a lot!",
+      "i18n_congratulations": "Congratulations",
+      "i18n_congratulations_text": "You have participated in all available tasks!",
+      "i18n_yes": "Yes",
+      "i18n_no_photo": "No photo",
+      "i18n_i_dont_know": "I don't know",
+      "i18n_working_task": "You are working now on task:",
+      "i18n_tasks_completed": "You have completed:",
+      "i18n_tasks_from": "tasks from",
+      "i18n_show_comments": "Show comments:",
+      "i18n_hide_comments": "Hide comments:",
+      "i18n_question": "Do you see a human face in this photo?",
+    },
+    "es": {
+      "i18n_welldone": "Bien hecho!",
+      "i18n_welldone_text": "Tu respuesta ha sido guardada",
+      "i18n_loading_next_task": "Cargando la siguiente tarea...",
+      "i18n_task_completed": "La tarea ha sido completadas!",
+      "i18n_thanks": "Muchísimas gracias!",
+      "i18n_congratulations": "Enhorabuena",
+      "i18n_congratulations_text": "Has participado en todas las tareas disponibles!",
+      "i18n_yes": "Sí",
+      "i18n_no_photo": "No hay foto",
+      "i18n_i_dont_know": "No lo sé",
+      "i18n_working_task": "Estás trabajando en la tarea:",
+      "i18n_tasks_completed": "Has completado:",
+      "i18n_tasks_from": "tareas de",
+      "i18n_show_comments": "Mostrar comentarios",
+      "i18n_hide_comments": "Ocultar comentarios",
+      "i18n_question": "¿Ves una cara humana en esta foto?",
+    },
+  };
+  // Update userLocale with server side information
+  $(document).ready(function(){
+    userLocale = document.getElementById('PYBOSSA_USER_LOCALE').textContent.trim();
+
+  });
+
+  function i18n_translate() {
+    var ids = Object.keys(messages[userLocale])
+    for (i=0; i<ids.length; i++) {
+      console.log("Translating: " + ids[i]);
+      if (document.getElementById(ids[i])) {
+        document.getElementById(ids[i]).innerHTML = messages[userLocale][ids[i]];
+      }
+    }
+  }
+
+
+  function loadUserProgress() {
+    pybossa.userProgress('Ref2014').done(function(data){
+      var pct = Math.round((data.done*100)/data.total);
+      $("#progress").css("width", pct.toString() +"%");
+      $("#progress").attr("title", pct.toString() + "% completed!");
+      $("#progress").tooltip({'placement': 'left'});
+      $("#total").text(data.total);
+      $("#done").text(data.done);
+    });
+  }
+
+  pybossa.taskLoaded(function(task, deferred) {
+    if ( !$.isEmptyObject(task) ) {
+      // load image from flickr
+      var img = $('<img />');
+      img.ready(function() {
+        // continue as soon as the image is loaded
+        deferred.resolve(task);
+        pybossaNotify("", false, "loading");
+      });
+      task.answer = {'people': [],
+      'places': [],
+      'objects': [],
+      'custom': [],
+      'locationdate': [],
+      'comments': ''
+    }
+    img.attr('src', task.info.url_b);
+    img.addClass('img-fluid');
+    task.info.image = img;
+  }
+  else {
+    deferred.resolve(task);
+  }
+});
+
+function resetStyles(task) {
+  $(".btn-tag").removeClass("active");
+  $(".btn-tag.custom").remove() ;
+  $("textarea").val("");
+  $(".btn-submit").hide();
+}
+
+function deleteItem(task, key, item) {
+  var index = task.answer[key].indexOf(item);
+  if (index > -1) {
+    task.answer[key].splice(index, 1);
+  }
+}
+
+
+function toggleSubmit(task){
+  total = []
+  for (var key in task.answer) {
+    console.log(task.answer[key]);
+    total = total.concat(task.answer[key]);
+  }
+  console.log(total);
+  if (total.length > 1) {
+    $(".btn-submit").show();
+  }
+  else {
+    $(".btn-submit").hide();
+  }
+
+}
+
+function toggleBtn(btn, task) {
+  var answer = $(btn).attr("value");
+  var key =  $(btn).parent().attr("id");
+  if ($(btn).hasClass('active')) {
+    $(btn).removeClass('active');
+    deleteItem(task, key, answer);
+    //console.log(task.answer);
+    if (key === 'custom') {
+      $(btn).remove();
+    }
+  }
+  else {
+    $(btn).addClass('active');
+    task.answer[key].push(answer);
+    //console.log(task.answer);
+  }
+
+  toggleSubmit(task);
+}
+
+pybossa.presentTask(function(task, deferred) {
+  if ( !$.isEmptyObject(task) ) {
+    loadUserProgress();
+    //i18n_translate();
+    resetStyles(task);
+    $('#task-id').html(task.id);
+    $('#photo-link').html('').append(task.info.image);
+    $("#photo-link").attr("href", task.info.link);
+
+    var handleBtn = function(evt) {
+      toggleBtn(this, task);
+    }
+
+    $('.btn-tag').off('click').on('click', handleBtn);
+
+    var lazyLoad = function(){
+      var tags = $(this).val().replace(/ /g,'').split(",");
+      //$("#custom").html("");
+      //task.answer.custom = [];
+      for(var tag in tags) {
+        if (tags[tag] !== '') {
+          task.answer.custom.push(tags[tag].toLowerCase());
+          var btn = $("<btn/>");
+          btn.addClass("btn btn-xs btn-default btn-tag custom active");
+          btn.val(tags[tag]);
+          btn.text(tags[tag]);
+          btn.css("margin-right", "5px");
+          btn.on('click', handleBtn);
+          $("#custom").append(btn);
+        }
+      }
+      $(this).val("");
+      toggleSubmit(task);
+    }
+
+
+    $("#tags").on("change paste keyup", _.debounce(lazyLoad, 1500));
+    $("#comments").on("change paste keyup", function(){
+      task.answer.comments = $(this).val();
+      //console.log(task.answer);
+    });
+    $("#locationdate").on("change paste keyup", function(){
+      task.answer.locationdate = $(this).val();
+    });
+
+    $('.btn.btn-submit').off('click').on('click', function(evt) {
+      pybossa.saveTask(task.id, task.answer).done(function() {
+        deferred.resolve();
+      });
+    });
+
+    $("#loading").hide();
+  }
+  else {
+    $(".skeleton").hide();
+    $("#loading").hide();
+    $("#finish").fadeIn(500);
+  }
+});
+
+pybossa.run('Ref2014');
+})();
+</script>
